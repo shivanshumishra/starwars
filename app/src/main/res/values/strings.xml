@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">StarWars Characters App</string>
+    <string name="sort_by">SORT BY</string>
+    <string name="filter">FILTER</string>
+    <string name="empty_filtered_screen">It\'s quiet empty after that selection. Please try to change the filter to see some characters</string>
+</resources>
