@@ -1,10 +1,9 @@
 package com.example.starwarscharactersapp.presentation.characterdetails
 
-import com.example.starwarscharactersapp.domain.model.CharacterDetailModel
-import com.example.starwarscharactersapp.domain.model.SWCharacter
+import com.example.starwarscharactersapp.data.local.dto.Movie
 
 data class CharacterDetailsViewState(
     var isLoading : Boolean = false,
-    var characterDetails : CharacterDetailModel? = null,
+    var moviesList : List<Movie> = emptyList(),
     val error : String = "",
 )

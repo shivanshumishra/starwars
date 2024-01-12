@@ -1,33 +1,31 @@
 package com.example.starwarscharactersapp.presentation.characterdetails
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starwarscharactersapp.common.Resource
-import com.example.starwarscharactersapp.domain.usecase.getcharacterdetails.GetCharacterDetailsUseCase
-import com.example.starwarscharactersapp.presentation.characterslist.CharacterListViewState
+import com.example.starwarscharactersapp.domain.usecase.getcharacterdetails.GetCharacterMovieDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterDetailViewModel @Inject constructor(
-    val getCharacterDetailsUseCase: GetCharacterDetailsUseCase
+class CharacterMoviesViewModel @Inject constructor(
+    val getCharacterMovieDetailsUseCase: GetCharacterMovieDetailsUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(CharacterDetailsViewState())
     val state: State<CharacterDetailsViewState> = _state
 
     fun getCharacterDetails(id : Int) {
-        getCharacterDetailsUseCase(id).onEach { result ->
+        getCharacterMovieDetailsUseCase(id).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    result.data?.let {  details ->
+                    result.data?.let {  list ->
                         _state.value = CharacterDetailsViewState(
-                            characterDetails = details
+                            moviesList = list
                         )
                     }
                 }

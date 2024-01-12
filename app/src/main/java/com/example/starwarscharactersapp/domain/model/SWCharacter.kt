@@ -14,5 +14,6 @@ data class SWCharacter(
     val edited: String,
     val gender: String,
     val name: String,
-    val url: String
+    val url: String,
+    val page: Int? = null
 )

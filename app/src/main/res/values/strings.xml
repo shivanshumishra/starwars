@@ -3,4 +3,5 @@
     <string name="sort_by">SORT BY</string>
     <string name="filter">FILTER</string>
     <string name="empty_filtered_screen">It\'s quiet empty after that selection. Please try to change the filter to see some characters</string>
+    <string name="empty_moview_detail">Can not find movies details for this character. Please try again later</string>
 </resources>

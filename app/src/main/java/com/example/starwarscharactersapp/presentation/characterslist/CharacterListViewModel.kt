@@ -7,9 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starwarscharactersapp.common.Resource
+import com.example.starwarscharactersapp.domain.model.SWCharacter
 import com.example.starwarscharactersapp.domain.usecase.getCharacters.GetCharactersListUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -33,13 +33,13 @@ class CharacterListViewModel @Inject constructor(
         _state.value.isLoading = true
         when (selectedSort.value) {
             "Name" -> {
-                _state.value.characters = _state.value.characters.sortedBy { it.name }
+                _state.value.characters = _state.value.characters.sortedBy { it.name }.toMutableList()
             }
             "Created" -> {
-                _state.value.characters = _state.value.characters.sortedBy { it.created }
+                _state.value.characters = _state.value.characters.sortedBy { it.created }.toMutableList()
             }
             "Updated" -> {
-                _state.value.characters = _state.value.characters.sortedBy { it.edited }
+                _state.value.characters = _state.value.characters.sortedBy { it.edited }.toMutableList()
             }
             else -> {
                 getCharactersList()
@@ -56,23 +56,31 @@ class CharacterListViewModel @Inject constructor(
         getCharactersListUsecase(currentPage.value).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    result.data?.let { list ->
+                    selectedSort.value = ""
+                    result.data?.let { data ->
+                        val list : MutableList<SWCharacter>
+                        if(_state.value.characters.isEmpty()){
+                            list = data.toMutableList()
+                        } else {
+                            list = _state.value.characters
+                            list.addAll(data)
+                        }
                         when (selectedFilter.value) {
                             "Gender : Male" -> {
                                 _state.value = CharacterListViewState(
-                                    characters = list.filter { it.gender == "male" }
+                                    characters = list.filter { it.gender == "male" }.toMutableList()
                                 )
                             }
 
                             "Gender : Female" -> {
                                 _state.value = CharacterListViewState(
-                                    characters = list.filter { it.gender == "female" }
+                                    characters = list.filter { it.gender == "female" }.toMutableList()
                                 )
                             }
 
                             "Gender : Not Applicable" -> {
                                 _state.value = CharacterListViewState(
-                                    characters = list.filter { it.gender == "n/a" }
+                                    characters = list.filter { it.gender == "n/a" }.toMutableList()
                                 )
                             }
 

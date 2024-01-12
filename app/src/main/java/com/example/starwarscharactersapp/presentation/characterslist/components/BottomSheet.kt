@@ -28,18 +28,18 @@ import com.example.starwarscharactersapp.common.CREATED
 import com.example.starwarscharactersapp.common.NAME
 import com.example.starwarscharactersapp.common.None
 import com.example.starwarscharactersapp.common.UPDATED
-import com.example.starwarscharactersapp.domain.model.SWCharacter
 import com.example.starwarscharactersapp.presentation.ui.theme.ColorPrimary
+import com.example.starwarscharactersapp.presentation.ui.theme.DarkGray
+import com.example.starwarscharactersapp.presentation.ui.theme.TextWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheet(
-    charactersList: List<SWCharacter>,
     onDismiss: () -> Unit,
     showFilters: Boolean,
-    filterSelected : (String) -> Unit,
-    sortSelected : (String) -> Unit,
-    selectedSort : String?,
+    filterSelected: (String) -> Unit,
+    sortSelected: (String) -> Unit,
+    selectedSort: String?,
     selectedFilter: String?,
     onOkClick: () -> Unit
 ) {
@@ -57,7 +57,9 @@ fun BottomSheet(
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         sheetState = modalBottomSheetState,
-        dragHandle = { BottomSheetDefaults.DragHandle() }
+        dragHandle = { BottomSheetDefaults.DragHandle() },
+        containerColor = DarkGray,
+        contentColor = TextWhite
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

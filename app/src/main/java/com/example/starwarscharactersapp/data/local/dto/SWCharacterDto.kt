@@ -26,13 +26,14 @@ data class SWCharacterDto(
     val vehicles: List<String>
 )
 
-fun SWCharacterDto.toSWCharacter(): SWCharacter {
+fun SWCharacterDto.toSWCharacter(page:Int): SWCharacter {
     return SWCharacter(
         birthYear = birthYear,
         created = created,
         edited = edited,
         gender = gender,
         name = name,
-        url = url
+        url = url,
+        page = page
     )
 }

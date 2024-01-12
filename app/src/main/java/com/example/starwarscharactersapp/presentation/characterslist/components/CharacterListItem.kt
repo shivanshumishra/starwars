@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.starwarscharactersapp.common.Utils.capatalizeFirstLetter
@@ -21,13 +20,12 @@ import com.example.starwarscharactersapp.domain.model.SWCharacter
 import com.example.starwarscharactersapp.presentation.ui.theme.ColorSecondary
 import com.example.starwarscharactersapp.presentation.ui.theme.MediumGray
 import com.example.starwarscharactersapp.presentation.ui.theme.TextWhite
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListItem(
     character : SWCharacter,
-    showCharacterDetails : (SWCharacter) -> Unit
+    showCharacterMovies : (SWCharacter) -> Unit
 ){
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -36,7 +34,7 @@ fun CharacterListItem(
         ),
         modifier = Modifier.padding(8.dp),
         onClick = {
-            showCharacterDetails(character)
+            showCharacterMovies(character)
         },
         colors = CardDefaults.cardColors(
             containerColor = MediumGray,

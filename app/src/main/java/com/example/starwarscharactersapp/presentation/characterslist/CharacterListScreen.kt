@@ -1,6 +1,5 @@
 package com.example.starwarscharactersapp.presentation.characterslist
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -50,28 +49,26 @@ fun CharacterListScreen(
 
     if (showSheet) {
         BottomSheet(
-            charactersList = state.characters,
-            showFilters = showFilter,
             onDismiss = {
                 showSheet = false
             },
+            showFilters = showFilter,
             filterSelected = { selectedFilter ->
                 viewModel.selectedFilter.value = selectedFilter
             },
             sortSelected = { sortSelected ->
                 viewModel.selectedSort.value = sortSelected
             },
-            selectedFilter = viewModel.selectedFilter.value,
             selectedSort = viewModel.selectedSort.value,
-            onOkClick = {
-                if (showFilter) {
-                    viewModel.filterItems()
-                } else {
-                    viewModel.sortItems()
-                }
-                showSheet = false
+            selectedFilter = viewModel.selectedFilter.value
+        ) {
+            if (showFilter) {
+                viewModel.filterItems()
+            } else {
+                viewModel.sortItems()
             }
-        )
+            showSheet = false
+        }
     }
     Box(
         modifier = Modifier.fillMaxSize()
@@ -119,11 +116,13 @@ fun CharacterListScreen(
                 } else if (state.characters.isEmpty() && viewModel.selectedFilter.value.isNotBlank()) {
                     ShowChangeFilterView()
                 } else {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2)
+                    LazyVerticalStaggeredGrid(
+                        columns = StaggeredGridCells.Fixed(2),
+                        verticalItemSpacing = 4.dp,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        items(state.characters) { character ->
-                            CharacterListItem(character = character, showCharacterDetails = {
+                        itemsIndexed(state.characters) { index, character ->
+                            CharacterListItem(character = character, showCharacterMovies = {
                                 val id = it.url.split("people/")[1].replace("/", "").toInt()
                                 navController.navigate(Screen.CharacterDetailScreen.route + "/${id}")
                             })
